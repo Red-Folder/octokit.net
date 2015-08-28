@@ -7,23 +7,21 @@ namespace Octokit.Tests.Integration
 {
     public static class Helper
     {
-        static readonly Lazy<Credentials> _credentialsThunk = new Lazy<Credentials>(() =>
+       static readonly Lazy<Credentials> _credentialsThunk = new Lazy<Credentials>(() =>
         {
-            var githubUsername = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBUSERNAME");
-            UserName = githubUsername;
-            Organization = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBORGANIZATION");
+            UserName = "Red-Folder-Test"; // Environment.GetEnvironmentVariable("OCTOKIT_GITHUBUSERNAME");
+            Organization = "Red-Folder-Test-Organisation"; // Environment.GetEnvironmentVariable("OCTOKIT_GITHUBORGANIZATION");
+            OAUthToken = null; // "06ec7f72976c8614e16128d8c12db6163bb07d77";   // Environment.GetEnvironmentVariable("OCTOKIT_OAUTHTOKEN");
 
-            var githubToken = Environment.GetEnvironmentVariable("OCTOKIT_OAUTHTOKEN");
+            if (OAUthToken != null)
+                return new Credentials(OAUthToken);
 
-            if (githubToken != null)
-                return new Credentials(githubToken);
+            var githubPassword = "f30d4349559e271679b97f4500aee7ae"; // Environment.GetEnvironmentVariable("OCTOKIT_GITHUBPASSWORD");
 
-            var githubPassword = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBPASSWORD");
-
-            if (githubUsername == null || githubPassword == null)
+            if (UserName == null || githubPassword == null)
                 return null;
 
-            return new Credentials(githubUsername, githubPassword);
+            return new Credentials(UserName, githubPassword);
         });
 
         static readonly Lazy<Credentials> _oauthApplicationCredentials = new Lazy<Credentials>(() =>
@@ -47,6 +45,8 @@ namespace Octokit.Tests.Integration
 
         public static string UserName { get; private set; }
         public static string Organization { get; private set; }
+        public static string OAUthToken { get; private set; }
+
 
         public static Credentials Credentials { get { return _credentialsThunk.Value; }}
 
@@ -56,7 +56,7 @@ namespace Octokit.Tests.Integration
         {
             get
             {
-                return !String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("OCTOKIT_OAUTHTOKEN"));
+                return OAUthToken != null;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Octokit.Tests.Integration
         {
             return new GitHubClient(new ProductHeaderValue("OctokitTests"))
             {
-                Credentials = new Credentials(Credentials.Login, "bad-password")
+                Credentials = new Credentials(UserName, "bad-password")
             };
         }
     }

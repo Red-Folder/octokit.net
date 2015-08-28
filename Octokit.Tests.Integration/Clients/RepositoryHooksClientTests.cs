@@ -77,7 +77,7 @@ namespace Octokit.Tests.Integration.Clients
                     Active = false
                 };
 
-                var hook = await github.Repository.Hooks.Create(Helper.Credentials.Login, repository.Name, parameters);
+                var hook = await github.Repository.Hooks.Create(Helper.UserName, repository.Name, parameters);
 
                 var baseHookUrl = CreateExpectedBaseHookUrl(repository.Url, hook.Id);
                 Assert.Equal("windowsazure", hook.Name);

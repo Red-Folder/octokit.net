@@ -75,7 +75,7 @@ public class UsersClientTests
 
             var userUpdate = new UserUpdate
             {
-                Name = Helper.Credentials.Login,
+                Name = Helper.UserName,
                 Bio = "UPDATED BIO"
             };
 
@@ -90,7 +90,7 @@ public class UsersClientTests
 
             var userUpdate = new UserUpdate
             {
-                Name = Helper.Credentials.Login,
+                Name = Helper.UserName,
                 Bio = "UPDATED BIO"
             };
 

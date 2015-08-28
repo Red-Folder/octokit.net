@@ -44,14 +44,14 @@ namespace Octokit.Tests.Integration.Clients
                 // The fork is created asynchronially by github and therefore it cannot 
                 // be certain that the repo exists when the test ends. It is therefore deleted
                 // before the test starts instead of after.
-                Helper.DeleteRepo(Helper.Credentials.Login, "octokit.net");
+                Helper.DeleteRepo(Helper.UserName, "octokit.net");
 
                 var github = Helper.GetAuthenticatedClient();
 
                 var forkCreated = await github.Repository.Forks.Create("octokit", "octokit.net", new NewRepositoryFork());
 
                 Assert.NotNull(forkCreated);
-                Assert.Equal(String.Format("{0}/octokit.net", Helper.Credentials.Login), forkCreated.FullName);
+                Assert.Equal(String.Format("{0}/octokit.net", Helper.UserName), forkCreated.FullName);
                 Assert.Equal(true, forkCreated.Fork);
             }
 
